@@ -1,0 +1,58 @@
+<?php
+# Reservation_Client.php
+# Copyright (c) 2009 by Dr. Herong Yang, herongyang.com
+# All rights reserved
+
+#- Loading the WSDL document
+/*   $server = "http://www.herongyang.com/Service/";
+   $wsdl = $server . "Reservation_WSDL_11_SOAP_11_Document.wsdl";
+   $client = new SoapClient($wsdl, array('trace' => TRUE));
+
+#- Creating the XML document
+   $xml = <<<EOT
+<hy:Reservation xmlns:hy="http://www.herongyang.com/Service/">
+  <Member>Herong Yangwwwwww</Member>
+  <ItemList>
+    <Item>Teste1</Item>
+    <Item>Teste2</Item>
+  </ItemList>
+</hy:Reservation>
+EOT;
+   $body = new SoapVar($xml,XSD_ANYXML);
+
+#- Calling the service method
+   $result = $client->Reservation($body);
+
+#- Showing the request and response
+   print $client->__getLastRequest()."\n";
+
+   print $client->__getLastResponse()."\n";
+
+   $xml = ($client->__getLastResponse());
+   $xml = new SimpleXMLElement($xml);
+   echo $xml;
+   $result = $xml->xpath('//hy:ReservationResponse');
+   print_r  ($result);
+*/
+
+$xml = 'http://192.168.218.168/webcamaleao/xml/contratados.xml';
+$xml = file_get_contents($xml);
+$xml = str_replace("<?xml version='1.0' encoding='UTF-8'?>", '', $xml);
+$xml = str_replace('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">', '', $xml);
+$xml = str_replace("<soap:Body>", '', $xml);
+$xml = str_replace('<AMX_RS_DADOS_CADASTRAISOutput xmlns="http://xmlns.oracle.com/orawsv/RHOWS/AMX_RS_DADOS_CADASTRAIS">', '', $xml);
+$xml = str_replace("</AMX_RS_DADOS_CADASTRAISOutput>", '', $xml);
+$xml = str_replace("</soap:Body>", '', $xml);
+$xml = str_replace("</soap:Envelope>", '', $xml);
+
+//echo $xml;
+
+$xml = new SimpleXMLElement($xml);
+
+$result = $xml->xpath('//ROWSET');
+$result =json_decode(json_encode($result));
+print_r ($result);
+//echo $result[0]->ELEGIVEIS->ID_FUNCIONARIO[0];
+
+
+?>

@@ -1,0 +1,18 @@
+<?php
+//$json = preg_replace("/\\\\u([a-f0-9]{4})/e", "iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))", json_encode($view_list));
+//echo urldecode(stripslashes($json));
+
+//echo $view_list;
+
+$test_array = array (
+  'bla' => 'blub',
+  'foo' => 'bar',
+  'another_array' => array (
+    'stack' => 'overflow',
+  ),
+);
+$xml = new SimpleXMLElement('<root/>');
+array_walk_recursive($test_array, array ($xml, 'addChild'));
+print $xml->asXML();
+
+?>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+	<title>Consulta de Logs</title>
+	<link rel="stylesheet" type="text/css" href="../appfiles/css/jquery.dataTables.css">
+	<link rel="stylesheet" href="../appfiles/bootstrap/css/bootstrap.min.css">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="../appfiles/css/font-awesome.min.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="../appfiles/css/ionicons.min.css">
+	<!-- DataTables -->
+	<link rel="stylesheet" href="../appfiles/plugins/datatables/dataTables.bootstrap.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="../appfiles/dist/css/AdminLTE.min.css">
+	<link rel="stylesheet" href="../appfiles/dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="../appfiles/dist/css/bootstrap-theme.min.css">
+	<script type="text/javascript" language="javascript" src="../appfiles/js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="../appfiles/js/jquery.dataTables.js"></script>
+	<script src="../appfiles/js/jquery.min.js"></script>
+
+	<script>
+	$(document).ready(function() {
+	  var dataTable = $('#employee-grid').DataTable( {
+	    "processing": true,
+	    "serverSide": true,
+	    "ajax":{
+	      url :"/frameweb/pacexpress/reportlog", // json datasource
+	      type: "post",  // method  , by default get
+	      error: function(){  // error handling
+	        $(".employee-grid-error").html("");
+	        $("#employee-grid").append('<tbody class="employee-grid-error"><tr><th colspan="3"></th></tr></tbody>');
+	        $("#employee-grid_processing").css("display","none");
+
+	      }
+	    }
+	  } );
+
+	  $("#employee-grid_filter").css("display","none");  // hiding global search box
+	  $('.search-input-select').on( 'change', function () {   // for select box
+	    var i =$(this).attr('data-column');
+	    var v =$(this).val();
+	    dataTable.columns(i).search(v).draw();
+	  } );
+	  $('.search-input-text').on( 'keyup', function () {   // for text boxes
+	      var i =$(this).attr('data-column');  // getting column index
+	      var v =$(this).val();  // getting search input value
+	      dataTable.columns(i).search(v).draw();
+	  } );
+
+	} );
+	</script>
+
+<script>
+function verdatail(id){
+
+     $.post('/frameweb/pacexpress/detaillog/', {KEY_DATA: id}, function(retorno){
+         $("#modalContatos").modal({ backdrop: 'static' });
+         $("#pessoas_contato").html(retorno);
+     });
+ }
+</script>
+
+	<style type="text/css">
+	    .bs-example{
+	            margin: 20px;
+	    }
+	</style>
+	</head>
+ <body class="hold-transition skin-blue sidebar-mini">
+
+	 <div class="modal fade" id="modalContatos" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	   <div class="modal-dialog">
+	     <div class="modal-content">
+	       <div class="modal-header">
+	         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	         <h4 class="modal-title" id="myModalLabel">Dados da Integra&ccedil;&atilde;o</h4>
+	       </div>
+	       <div class="modal-body">
+					 <div id="pessoas_contato">
+
+					 </div>
+	       </div>
+	     </div>
+	    </div>
+	 </div>
+
+
+
+	<center> <h1>Log Pacexpress</h1> </center>
+  <div class="box">
+		<div class="box-body">
+			<table id="employee-grid"  class="table table-bordered table-striped" width="100%">
+
+					<thead>
+						<tr>
+							<th>KeyData</th>
+							<th>Nome da integracao</th>
+							<th>Data</th>
+							<th>Tipo Geg.</th>
+							<th>chave</th>
+							<th>Mensagem de Erro</th>
+							<th>Campo </th>
+							<th>Detalhes</th>
+						</tr>
+					</thead>
+				   <thead>
+				        <tr>
+				            <th  align="left">
+                      <input type="text" data-column="0"  class="search-input-text" align="left">
+                    </th>
+				            <th  align="left">
+                        <input type="text" data-column="1"  class="search-input-text" align="left">
+				            </td>
+				            <td  align="left"><input type="text" data-column="2" size=13 class="search-input-text" align="left"></td>
+							<th  align="left">
+								<select data-column="3"  class="search-input-select" align="left">
+				                     <option value="">Tipo de Registro</option>
+				                     <option value="insert">Insert</option>
+				                     <option value="update">Update</option>
+				                     <option value="cancel">Cancel</option>
+                             <option value="standBy">StandBy</option>
+                             <option value="close">Close</option>
+				                </select></th>
+							<th  align="left"><input type="text" data-column="4" size=3 class="search-input-text" align="left"></th>
+							<th>
+                <input type="text" data-column="5"  class="search-input-text" align="left">
+							</th>
+							<th align="left"><input type="text" data-column="6"  class="search-input-text" align="left"></th>
+							<th align="left"></th>
+				        </tr>
+				    </thead>
+
+
+			</table>
+
+    </div><!-- /.box-body -->
+  </div><!-- /.box -->
+
+	<script src="../appfiles/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+	   <!-- Bootstrap 3.3.5 -->
+	   <script src="../appfiles/bootstrap/js/bootstrap.min.js"></script>
+	   <!-- DataTables -->
+	   <script src="../appfiles/plugins/datatables/jquery.dataTables.min.js"></script>
+	   <script src="../appfiles/plugins/datatables/dataTables.bootstrap.min.js"></script>
+	   <!-- SlimScroll -->
+	   <script src="../appfiles/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+	   <!-- FastClick -->
+	   <script src="../appfiles/plugins/fastclick/fastclick.min.js"></script>
+	   <!-- AdminLTE App -->
+	   <script src="../appfiles/dist/js/app.min.js"></script>
+	   <!-- AdminLTE for demo purposes -->
+	   <script src="../appfiles/dist/js/demo.js"></script>
+
+	</body>
+</html>

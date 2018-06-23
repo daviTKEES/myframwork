@@ -1,0 +1,14 @@
+<soapenv:Envelope
+  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:ser="http://www.herongyang.com/Service/">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <ser:Reservation>
+      <Member>Herong Yang</hy:Member>
+      <ItemList>
+        <Item>Java Web Services</Item>
+        <Item>SOAP Programming</Item>
+      </ItemList>
+    </ser:Reservation>
+  </soapenv:Body>
+</soapenv:Envelope>

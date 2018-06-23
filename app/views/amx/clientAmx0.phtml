@@ -1,0 +1,199 @@
+<?php
+# Reservation_Client.php
+# Copyright (c) 2009 by Dr. Herong Yang, herongyang.com
+# All rights reserved
+
+#- Loading the WSDL document
+/*   $server = "http://www.herongyang.com/Service/";
+   $wsdl = $server . "Reservation_WSDL_11_SOAP_11_Document.wsdl";
+   $client = new SoapClient($wsdl, array('trace' => TRUE));
+
+#- Creating the XML document
+   $xml = <<<EOT
+<hy:Reservation xmlns:hy="http://www.herongyang.com/Service/">
+  <Member>Herong Yangwwwwww</Member>
+  <ItemList>
+    <Item>Teste1</Item>
+    <Item>Teste2</Item>
+  </ItemList>
+  <ItemList>
+    <Item>Teste3</Item>
+    <Item>Teste4</Item>
+  </ItemList>
+</hy:Reservation>
+EOT;
+   $body = new SoapVar($xml,XSD_ANYXML);
+
+#- Calling the service method
+   $result = $client->Reservation($body);
+
+#- Showing the request and response
+   print $client->__getLastRequest()."\n";
+
+   print $client->__getLastResponse()."\n";
+   print_r  ($result);
+
+
+   $xml = ($client->__getLastResponse());
+   $xml = new SimpleXMLElement($xml);
+   echo $xml;
+   $result = $xml->xpath('//hy:ReservationResponse');
+
+*/
+
+$xml = '<?xml version="1.0" encoding="UTF-8"?>'.
+'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'.
+'<soap:Body>'.
+'<RHOWS_RS_REQUISICAOOutput xmlns="http://xmlns.oracle.com/orawsv/RHOWS/RHOWS_RS_REQUISICAO">'.
+'<P_RESULT>
+<RHEVOLUTIONRS>
+<DoWork>
+<requisicao>
+  <REQP_SEQ>1084</REQP_SEQ>
+  <CODIGO_EMPRESA>XX001040</CODIGO_EMPRESA>
+  <EMPRESA>XX001040 EMPRESA DEMO</EMPRESA>
+  <CODIGO_UNIDADE>XG64</CODIGO_UNIDADE>
+  <UNIDADE_ORGANIZACIONAL>DEPARTAMENTO XG64</UNIDADE_ORGANIZACIONAL>
+  <DATA_REQUISICAO>2013-03-27T12:15:24</DATA_REQUISICAO>
+  <DATA_IMPORTACAO>2013-03-27T12:15:24</DATA_IMPORTACAO>
+  <ID_REQUISITANTE>124540</ID_REQUISITANTE>
+  <REQUISITANTE>NOME REQUISITANTE 124540 JOýO</REQUISITANTE>
+  <ID_GESTOR_REQUISICAO/>
+  <GESTOR_REQUISICAO/>
+  <ID_CARGO>885</ID_CARGO>
+  <CARGO>ALMOXARIFE I</CARGO>
+  <CODIGO_TIPO_COLABORADOR>A</CODIGO_TIPO_COLABORADOR>
+  <TIPO_COLABORADOR>FUNCIONARIO CLT</TIPO_COLABORADOR>
+  <SALARIO>1196.36</SALARIO>
+  <SIGLA_PAIS_LOCAL>10</SIGLA_PAIS_LOCAL>
+  <PAIS_LOCAL>BRASIL</PAIS_LOCAL>
+  <SIGLA_ESTADO_LOCAL>SC</SIGLA_ESTADO_LOCAL>
+  <ESTADO_LOCAL>SANTA CATARINA Canýýo</ESTADO_LOCAL>
+  <CIDADE_LOCAL>Sao Jose</CIDADE_LOCAL>
+  <CODIGO_AREA_ATUACAO/>
+  <AREA_ATUACAO/>
+  <POSICOES>1</POSICOES>
+  <JUSTIFICATIVA/>
+  <OBSERVACAO/>
+  <ID_SELEC_RESP>126197</ID_SELEC_RESP>
+  <NOME_SELEC_RESP>NOME DO FUNCIONARIO RESPONSAVEL 126197</NOME_SELEC_RESP>
+  <EMAIL_SELEC_RESP>funcionario.responsavel@claro.com.br</EMAIL_SELEC_RESP>
+  <REQUISITOS>
+      <DESCRICAO>ESCOLARIDADE EXIGIDA</DESCRICAO>
+      <NOME>FORMACAO ACADEMICA </NOME>
+      <DESCRICAO>EXPERIENCIA PROFISIONAL EXIGIDA</DESCRICAO>
+      <NOME>EXPERIENCIA PROFISSIONAL</NOME>
+      <DESCRICAO>RESPONSABILIDADES DO CARGO</DESCRICAO>
+      <NOME>RESPONSABILIDADES DO CARGO</NOME>
+      <DESCRICAO> com o comportamento organizacional</DESCRICAO>
+      <NOME>CARACTERISTICAS COMPORTAMENTAIS</NOME>
+      <DESCRICAO>Ingles fluente</DESCRICAO>
+      <NOME>IDIOMA</NOME>
+      <DESCRICAO>desenvolvimento de  na plataforma microsoft.Net,  em . Net, de html e javascript</DESCRICAO>
+      <NOME>CONCHECIMENTO </NOME>
+      <DESCRICAO></DESCRICAO>
+      <NOME>PCD</NOME>
+      <DESCRICAO>COMERCIAL</DESCRICAO>
+      <NOME>HORARIO DE TRABALHO</NOME>
+      <DESCRICAO>Outras </DESCRICAO>
+      <NOME>OUTROS </NOME>
+  </REQUISITOS>
+  <ELEGIVEIS>
+      <ID_FUNCIONARIO>11111</ID_FUNCIONARIO>
+      <ID_FUNCIONARIO>11112</ID_FUNCIONARIO>
+      <ID_FUNCIONARIO>11113</ID_FUNCIONARIO>
+  </ELEGIVEIS>
+</requisicao>
+</DoWork>
+</RHEVOLUTIONRS>
+</P_RESULT>
+</RHOWS_RS_REQUISICAOOutput>
+</soap:Body>
+</soap:Envelope>';
+$xml = str_replace("<?xml version='1.0' encoding='UTF-8'?>", '', $xml);
+$xml = str_replace('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">', '', $xml);
+$xml = str_replace("<soap:Body>", '', $xml);
+$xml = str_replace('<RHOWS_RS_REQUISICAOOutput xmlns="http://xmlns.oracle.com/orawsv/RHOWS/RHOWS_RS_REQUISICAO">', '', $xml);
+$xml = str_replace("</RHOWS_RS_REQUISICAOOutput>", '', $xml);
+$xml = str_replace("</soap:Body>", '', $xml);
+$xml = str_replace("</soap:Envelope>", '', $xml);
+
+$xml = utf8_encode($xml)  ;
+
+$xml = new SimpleXMLElement($xml);
+//echo $result[0]->ELEGIVEIS->ID_FUNCIONARIO[0];
+$result = $xml->xpath('//requisicao');
+$result =json_decode(json_encode($result));
+
+$array = $result[0]->ELEGIVEIS->ID_FUNCIONARIO;
+foreach ($array as $key => $value) {
+    echo "Elegivel_$key => : $value<br />\n";
+}
+
+foreach ($result as $key => $value) {
+  $Key      = $Keydata->geraKey(7, true, true, false);
+  $xmldados = "<DADOS>";
+  if(isset($value->REQP_SEQ)) $xmldados .= "<NOME>$value->REQP_SEQ .'-'. $value->CARGO</NOME>";
+  else  $xmldados .= "<NOME></NOME>";
+
+}
+ECHO $xmldados;
+
+
+/*$array = $result[0]->REQUISITOS->DESCRICAO;
+foreach ($array as $key => $value) {
+    echo "campol_$key => : $value<br />\n";
+}*/
+
+//$array = $result[0]->REQUISITOS;
+//print_r ($array);
+
+$dados =
+'<DADOS>
+<NOME>'.$result[0]->REQP_SEQ.'-'.$result[0]->CARGO  .'</NOME>
+<COD_EMPRESA>'.$result[0]->CODIGO_EMPRESA.'</COD_EMPRESA>
+<NOME_EMPRESA>'.$result[0]->EMPRESA.'</NOME_EMPRESA>
+<NUMERO_VAGA_CLARO>'.$result[0]->REQP_SEQ.'</NUMERO_VAGA_CLARO>
+<MC_PERIODO></MC_PERIODO>
+<TEL_GESTOR></TEL_GESTOR>
+<VAGAS>'.$result[0]->POSICOES.'</VAGAS>
+<LOCAL_TRABALHO></LOCAL_TRABALHO>
+<GESTOR></GESTOR>
+<NOME_GESTOR></NOME_GESTOR>
+<REQUISITANTE></REQUISITANTE>
+<NOME_REQUISITANTE></NOME_REQUISITANTE>
+<FUNCIONARIO></FUNCIONARIO>
+<COD_INTERNO></COD_INTERNO>
+<DATA_ABERTURA>'.$result[0]->DATA_REQUISICAO.'</DATA_ABERTURA>
+<DATA_INICIO></DATA_INICIO>
+<COD_CARGO>'.$result[0]->ID_CARGO.'</COD_CARGO>
+<CARGO>'.$result[0]->CARGO.'</CARGO>
+<ESTADO>'.$result[0]->ESTADO_LOCAL.'</ESTADO>
+<COD_CIDADE>'.(string) $result[0]->CIDADE_LOCAL.'</COD_CIDADE>
+<COD_AREA_INTERESSE></COD_AREA_INTERESSE>
+<COD_FAIXA_SALARIAL></COD_FAIXA_SALARIAL>
+<COD_TIPO_PROFISSIONAL></COD_TIPO_PROFISSIONAL>
+<MOTIVO_CONTRATO>'.$result[0]->CODIGO_TIPO_COLABORADOR.'</MOTIVO_CONTRATO>
+<PUBLICAR_ANUNCIO></PUBLICAR_ANUNCIO>
+<COD_RESPONSAVEL_POSICAO></COD_RESPONSAVEL_POSICAO>
+<COD_TIPO_CONTRATO></COD_TIPO_CONTRATO>
+<COD_UNIDADE_NEGOCIO>'.$result[0]->UNIDADE_ORGANIZACIONAL.'</COD_UNIDADE_NEGOCIO>
+<UNIDADE_NEGOCIO>'.$result[0]->CODIGO_UNIDADE.'</UNIDADE_NEGOCIO>
+<COD_TIPO_RECRUTAMENTO></COD_TIPO_RECRUTAMENTO>
+<DESCRICAO></DESCRICAO>
+<OBS_CANDIDATO></OBS_CANDIDATO>
+<OBSERVACOES>'.   var_dump($result[0]->OBSERVACAO).'</OBSERVACOES>
+<DESCREQUISICAO_1_1>'.$result[0]->REQUISITOS->DESCRICAO[0].'</DESCREQUISICAO_1_1>
+<DESCREQUISICAO_2_1>'.$result[0]->REQUISITOS->DESCRICAO[1].'</DESCREQUISICAO_2_1>
+<DESCREQUISICAO_3_1>'.$result[0]->REQUISITOS->DESCRICAO[2].'</DESCREQUISICAO_3_1>
+<DESCREQUISICAO_4_1>'.$result[0]->REQUISITOS->DESCRICAO[3].'</DESCREQUISICAO_4_1>
+<DESCREQUISICAO_5_2>'.$result[0]->REQUISITOS->DESCRICAO[4].'</DESCREQUISICAO_5_2>
+<DESCREQUISICAO_6_2>'.$result[0]->REQUISITOS->DESCRICAO[5].'</DESCREQUISICAO_6_2>
+<DESCREQUISICAO_7_2></DESCREQUISICAO_7_2>
+<DESCREQUISICAO_8_2></DESCREQUISICAO_8_2>
+<DESCREQUISICAO_9_2></DESCREQUISICAO_9_2>
+</DADOS>';
+
+echo $dados;
+
+?>

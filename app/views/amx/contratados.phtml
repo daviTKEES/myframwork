@@ -1,0 +1,38 @@
+<?php
+$xml = 'http://192.168.218.168/webcamaleao/xml/contratados.xml';
+$xml = file_get_contents($xml);
+$xml = str_replace("<?xml version='1.0' encoding='UTF-8'?>", '', $xml);
+$xml = str_replace('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">', '', $xml);
+$xml = str_replace("<soap:Body>", '', $xml);
+$xml = str_replace('<AMX_RS_DADOS_CADASTRAISOutput xmlns="http://xmlns.oracle.com/orawsv/RHOWS/AMX_RS_DADOS_CADASTRAIS">', '', $xml);
+$xml = str_replace("</AMX_RS_DADOS_CADASTRAISOutput>", '', $xml);
+$xml = str_replace("</soap:Body>", '', $xml);
+$xml = str_replace("</soap:Envelope>", '', $xml);
+
+//echo $xml;
+$xml = new SimpleXMLElement($xml);
+$result = $xml->xpath('//ROWSET');
+$result =json_decode(json_encode($result));
+//print_r ($result);
+$array = $result[0]->FUNCIONARIO;
+//print_r ($array);
+echo "<table>";
+foreach ($array as $key => $value) {
+    echo "<TR><TD>FUNCIONARIO ATIVO$key</TD>";
+    echo "<TD>$value->MATRICULA</TD>";
+    echo "<TD>$value->NOME</TD>";
+    echo "<TD>$value->DATA_ADMISSAO</TD>";
+    echo "<TD>$value->DATA_NASCIMENTO</TD>";
+    echo "<TD>".str_pad($value->CPF, 11, "0", STR_PAD_LEFT)."</TD>";
+    echo "<TD>$value->SEXO</TD>";
+    echo "<TD>$value->TIPO_COLAB_COD</TD>";
+    echo "<TD>$value->TIPO_COLAB</TD>";
+    if(isset($value->UNIDADE))echo "<TD>$value->UNIDADE</TD></TR>";
+    else echo "<TD></TD></TR>";
+
+}
+echo "</table>";
+
+
+
+?>

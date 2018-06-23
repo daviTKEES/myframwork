@@ -1,0 +1,31 @@
+<?php
+$url    = 'http://192.168.218.168/rest/wsdl/amx_rs_dados_cadastrais.wsdl';
+$client = new SoapClient($url, array("soap_version" => SOAP_1_1,"trace" => 1));
+
+$user_param = array (
+  'P_IDENTIFICACAO-VARCHAR2-IN' => "test",
+  'P_ID-NUMBER-IN' => "test",
+  'P_CPF-NUMBER-IN' => "test",
+  'P_TIPO_COLAB-VARCHAR2-IN' => "test",
+  'P_RESULT-XMLTYPE-OUT' => "test",
+  'P_SITUACAO-VARCHAR2-IN' => "test",
+  'P_DATA_ADMISSAO_ATE-VARCHAR2-IN' => "test",
+  'P_DATA_ADMISSAO-VARCHAR2-IN' => "test",
+  'P_DATA_DEMISSAO_ATE-VARCHAR2-IN' => "test",
+  'P_DATA_DEMISSAO-VARCHAR2-IN' => "test"
+);
+
+$service_param = array (
+  'AMX_RS_DADOS_CADASTRAISInput' => $user_param,
+  "OutPut" => NULL,
+  "ErrorMsg" => NULL
+);
+
+print_r(
+   $client->__soapCall(
+       "Login",
+       array($service_param)
+   )
+);
+
+echo $client->__getLastRequest();
