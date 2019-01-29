@@ -69,6 +69,7 @@ class Amx extends Controller{
             fwrite($fp, $xmlfile);
             fclose($fp);
         }
+        return "ok";
       }
 
   public function amx_dependents()
