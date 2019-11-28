@@ -6,10 +6,7 @@ class Model{
     public $_database;
 
     public function getConnection() {
-      //$conn = oci_connect($_SESSION["databaseuser"] , $_SESSION["databaseuser"] .'#retnuhe3', '192.168.218.199/hmg1', 'utf8');
-      // $conn = oci_connect('amx' , 'amx#retnuhe3', '192.168.218.199/dsv1', 'utf8');
-      $conn = oci_connect($_SESSION["databaseuser"] , $_SESSION["databaseuser"] .'#retnuhe3', '200.244.55.141/prd1', 'utf8');
-     // $conn = oci_connect('clarov7', 'clarov7#retnuhe3', '200.244.55.141/prd1', 'utf8');
+      $conn = oci_connect($_SESSION["databaseuser"] , $_SESSION["databaseuser"] .'#sdsds', '200.244.55.141/prd1', 'utf8');
         return $conn;
     }
 
